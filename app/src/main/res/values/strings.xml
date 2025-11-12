@@ -1,0 +1,203 @@
+<resources>
+    <string name="app_name">SouthWest</string>
+    <string name="welcome">Welcome</string>
+    <string name="welcome_back">Welcome Back!</string>
+    <string name="my_orders">My Orders</string>
+    <string name="already_have_2_order">Already have 2 order</string>
+    <string name="shipping_address">Shipping address</string>
+    <string name="three_address">3 address</string>
+    <string name="payment_method">Payment method</string>
+    <string name="visa_34">Visa **34</string>
+    <string name="my_reviews">My reviews</string>
+    <string name="reviews_for_4_items">Reviews for 4 items</string>
+    <string name="developer_settings">Developer Settings</string>
+    <string name="developer_settings_desc">To develop and test</string>
+    <string name="contact_us">Contact us</string>
+    <string name="talk_to_an_agent">Talk to an agent</string>
+    <string name="login">"Login"</string>
+    <string name="user_name">User Name</string>
+    <string name="lets_sign_in">Let\'s sign in</string>
+    <string name="login_desc">Welcome back, we missed you!</string>
+    <string name="sign_in">Sign in</string>
+    <string name="forgot_password">Forgot password ?</string>
+    <string name="or">or</string>
+    <string name="no_account">Don’t have an account ?</string>
+    <string name="register_now">Register Now </string>
+    <string name="logout">Logout</string>
+    <string name="identify_show">Identify/Show</string>
+    <string name="open_support">Open Support</string>
+    <string name="open_topic">Open Topic</string>
+    <string name="show_knowledge_base">Show Knowledge Base</string>
+    <string name="update_user">Update User</string>
+    <string name="update_ticket">Update Ticket</string>
+    <string name="update">Update</string>
+    <string name="authenticate">Authenticate</string>
+    <string name="update_properties">Update User Properties</string>
+    <string name="update_ticket_properties">Update Ticket Properties</string>
+    <string name="identify_user">Identify User</string>
+    <string name="external_id">External Id</string>
+    <string name="restore_id">Restore Id</string>
+    <string name="reset_user">Reset User</string>
+    <string name="get_user">Get User</string>
+    <string name="user_state">User State</string>
+    <string name="update_jwt_auth_token">Update JWT Auth Token</string>
+    <string name="update_jwt">Update JWT</string>
+    <string name="parallel_conversations">Parallel Conversations</string>
+    <string name="load_account">Load Account</string>
+    <string name="conv_ref_id">Conversation Reference Id</string>
+    <string name="ref_id">Reference Id</string>
+    <string name="topic_name">Topic name</string>
+    <string name="topic_id">Topic Id</string>
+    <string name="open">Open</string>
+    <string name="user_details">User Details</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="conversation_faq_tags">Conversation &amp; FAQs tags</string>
+    <string name="enter_tags_desc">Please enter the tags in a below format. Eg: Tags1,Tags2</string>
+    <string name="tags">Tags</string>
+    <string name="show">Show</string>
+    <string name="select_filter_type">Select filter type</string>
+    <string name="conversation">Conversation</string>
+    <string name="category">Category</string>
+    <string name="article">Article</string>
+    <string name="none">None</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email">Email</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="phone_country">Phone Country</string>
+    <string name="locale">Locale</string>
+    <string name="custom_properties">User Properties Map</string>
+    <string name="custom_ticket_properties">Ticket Properties Map</string>
+    <string name="user_property_as_jwt">User Properties JWT</string>
+    <string name="ticket_property_as_jwt">Ticket Properties JWT</string>
+    <string name="app_id">App ID</string>
+    <string name="app_key">App Key</string>
+    <string name="host">Host</string>
+    <string name="sdk_id">SDK ID</string>
+    <string name="token">Token</string>
+    <string name="jwt_token">JWT</string>
+    <string name="auth_token">Auth Token</string>
+    <string name="auth_token_desc">Auth token is mandatory only for JWT Enforced SDK.</string>
+    <string name="mandatory_field">Mandatory field</string>
+    <string name="uuid">UUID</string>
+    <string name="undefined">Undefined</string>
+    <string name="not_found">Not found</string>
+    <string name="clear">Clear</string>
+    <string name="user_alias">User Alias</string>
+    <string name="properties_description">Please enter the properties in the below format. Eg:Key1: value1, key2: value2</string>
+    <string name="jwt_properties_description">Please enter the JWT that has the user properties.</string>
+    <string name="jwt_ticket_properties_description">Please enter the JWT that has the ticket properties.</string>
+    <string name="event_data_description">Please enter the event value in the below format. Eg:Key1: value1, key2: value2</string>
+    <string name="switcher_dialog">Configure</string>
+    <string name="done">Done</string>
+    <string name="configurations">Configurations</string>
+    <string name="outbound_events">Listen Outbound Events</string>
+    <string name="user_action_events">User Action Events</string>
+    <string name="ok">OK</string>
+    <string name="custom_link_handler">Custom Link Handler</string>
+
+    <!-- Bot Variables -->
+    <string name="bot_variables">Bot Variables</string>
+    <string name="bot_variables_placeholder">Enter bot variables</string>
+    <string name="update_custom_bot_variables">Update Custom Bot Variables</string>
+    <string name="bot_variables_description">Please enter the bot variables in the below json format.
+"""
+{
+    \"status\": \"active\",
+    \"type\": 13
+}"""
+    </string>
+
+    <string name="pre_chat_form_template_label">Pre-chat Form Template</string>
+    <string name="update_pre_chat_form_template">Update Pre-chat Form Template</string>
+    <string name="pre_chat_form_description">Please enter the pre-chat form template in the below json format.
+"""
+{
+    \"status\": \"active\",
+    \"type\": 13
+}"""</string>
+
+    <!--Custom Conversation Properties -->
+    <string name="conversation_properties">Conversation Properties</string>
+    <string name="conversation_properties_placeholder">Enter custom conversation properties</string>
+    <string name="update_custom_conversation_properties">Update custom conversation properties</string>
+    <string name="conversation_properties_description">Please enter the conversation properties in the below json format.
+"""
+{
+    \"status\": \"active\",
+    \"type\": 13
+}"""
+    </string>
+
+    <!-- Static Localization support -->
+    <string name="update_localization_support">Localization Support</string>
+    <string name="config_header_property_label_id">Header Property</string>
+    <string name="config_content_property_label_id">Content Property</string>
+
+    <!--    Content Descriptions-->
+    <string name="profile_icon">Profile Icon</string>
+    <string name="home">Home</string>
+    <string name="back">Back</string>
+    <string name="social">Social</string>
+    <string name="bomber_jackets_white">Bomber jackets white</string>
+    <string name="bomber_jackets_black">Bomber jackets black</string>
+    <string name="shopping_bag">Shopping bag</string>
+    <string name="check_out">Checkout</string>
+    <string name="cart">Cart</string>
+    <string name="login_bg">Login background</string>
+    <string name="product_detail">Product detail</string>
+    <string name="order_placed">Order placed</string>
+    <string name="menu">Menu</string>
+    <string name="resetting_user">Resetting User</string>
+
+    <!-- Change Language -->
+    <string name="change_user_language">Change User Language</string>
+    <string name="user_language">User Language</string>
+    <string name="change">Change</string>
+    <string name="change_widget_language">Change Widget Language</string>
+    <string name="widget_language">Widget Language</string>
+
+    <!-- Languages -->
+    <string name="arabic">Arabic Language (RTL)</string>
+    <string name="english">English</string>
+    <string name="catalan">Catalan</string>
+    <string name="chinese">Chinese (Simplified)</string>
+    <string name="chinese_traditional">Chinese (Traditional)</string>
+    <string name="c_zech">CZech</string>
+    <string name="danish">Danish</string>
+    <string name="dutch">Dutch</string>
+    <string name="german">German</string>
+    <string name="estonian">Estonian</string>
+    <string name="finnish">Finnish</string>
+    <string name="french">French</string>
+    <string name="hungarian">Hungarian</string>
+    <string name="indonesian">Indonesian</string>
+    <string name="italian">Italian</string>
+    <string name="korean">Korean</string>
+    <string name="latvian">Latvian</string>
+    <string name="norwegian">Norwegian</string>
+    <string name="polish">Polish</string>
+    <string name="portuguese">Portuguese</string>
+    <string name="portuguese_brazil">Portuguese - Brazil</string>
+    <string name="romanian">Romanian</string>
+    <string name="russian">Russian</string>
+    <string name="slovak">Slovak</string>
+    <string name="slovenian">Slovenian</string>
+    <string name="spanish">Spanish</string>
+    <string name="spanish_latin_america">Spanish - Latin America</string>
+    <string name="swedish">Swedish</string>
+    <string name="thai">Thai</string>
+    <string name="turkish">Turkish</string>
+    <string name="ukrainian">Ukrainian</string>
+    <string name="vietnamese">Vietnamese</string>
+    <string name="link_clicked">Link Clicked: %s</string>
+    <string name="log_user_event">Log User Event</string>
+    <string name="event_name">Event Name</string>
+    <string name="event_value">Event Value</string>
+    <string name="event_sent">Event Sent:%s</string>
+    <string name="inbound_event_invalid_input">Invalid Input</string>
+    <string name="send">Send</string>
+    <string name="sdk_version">SDK Version: %s(%d)</string>
+    <string name="sdk_build_id">SDK Build ID: %s</string>
+    <string name="dismiss_freshdesk_sdk">Dismiss Freshdesk SDK</string>
+</resources>

@@ -1,0 +1,44 @@
+[versions]
+ktx = "1.12.0"
+kotlin-android = "1.9.22"
+kotlin-ksp = "1.9.10-1.0.13"
+appcompat = "1.6.1"
+material = "1.12.0"
+gson = "2.10.1"
+agp = "8.2.2"
+lifecycle = "2.7.0"
+google-services = "4.4.2"
+compose = "1.6.1"
+messaging = "23.4.1"
+activity-compose = "1.8.2"
+compose-bom = "2025.02.00"
+
+freshdesk = "0.0.3-alpha"
+freshdesk-SNAPSHOT = "0.0.3-alpha-SNAPSHOT"
+
+[libraries]
+freshdesk = { group = "com.freshworks.sdk", name = "freshdesk", version.ref = "freshdesk" }
+freshdesk-ss = { group = "com.freshworks.sdk", name = "freshdesk", version.ref = "freshdesk-SNAPSHOT" }
+
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktx" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
+compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "compose" }
+compose-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "compose" }
+compose-ui = { group = "androidx.compose.ui", name = "ui" }
+compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "messaging" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-android" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "kotlin-ksp" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-android" }
+google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
