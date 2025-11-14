@@ -39,11 +39,25 @@ object AccountUtils {
         sdkID = "01K88V0WB2XG0PBSPEVMPKT4MR"
     )
 
+    val sanAssist = SDKConfig(
+        token = "01K85BR0FP33N98YAN5MZ9CDGA",
+        host = "https://sanjaykrishnan-assist.freshpo.com",
+        locale = "en",
+        sdkID = "01K9VV07MFH28P5VVWMGX452FG"
+    )
+
     val account360 = SDKConfig(
         token = "01K6WWVE9TX6Z9KW1C1BZHC6RK",
         host = "https://mobiletesting-help.freshpo.com",
         locale = "en",
         sdkID = "01K6YY5904DA2A3MNN7J87HAHJ",
+    )
+
+    val fandf = SDKConfig(
+        token = "01K5XYY0PZC2279YMWHK8EQJCE",
+        host = "https://fandfbranchanmeghtestmobile.freshpo.com",
+        locale = "en",
+        sdkID = "01K8SYCS83VK70E9Y21QCHSZFN"
     )
 
 //    val configFreshPori = SDKConfig(

@@ -12,10 +12,7 @@ const val CONV_TOPIC_NAME = "CONV_TOPIC_NAME"
 const val CONV_TOPIC_ID = "CONV_TOPIC_ID"
 const val SELECTED_ACCOUNT = "SELECTED_ACCOUNT"
 const val USER_ALIAS = "USER_ALIAS"
-const val EXTERNAL_ID = "EXTERNAL_ID"
-const val RESTORE_ID = "RESTORE_ID"
 const val USER = "USER"
-const val USER_LOCALE = "USER_LOCALE"
 const val EVENT_SWITCH_STATE = "EVENT_SWITCH_STATE"
 const val INBOUND_EVENT_NAME = "INBOUND_EVENT_NAME"
 const val INBOUND_EVENT_DATA = "INBOUND_EVENT_DATA"
@@ -65,23 +62,11 @@ object DataStore {
         return gson.fromJson(json, SDKConfig::class.java)?.copy(
             ruleId = "sdkConfig",
             headerProps = emptyMap()
-        ) ?: AccountUtils.staging
+        ) ?: AccountUtils.sanAssist
     }
 
     fun setUserAlias(id: String) {
         sharedPreferences.edit { putString(USER_ALIAS, id) }
-    }
-
-    fun setExternalId(id: String) {
-        sharedPreferences.edit { putString(EXTERNAL_ID, id) }
-    }
-
-    fun setRestoreId(id: String) {
-        sharedPreferences.edit { putString(RESTORE_ID, id) }
-    }
-
-    fun getRestoreId(): String {
-        return sharedPreferences.getString(RESTORE_ID, null) ?: ""
     }
 
     fun setUser(user: User) {
@@ -92,8 +77,6 @@ object DataStore {
         setUserName("")
         setUser(User())
         setUserAlias("")
-        setExternalId("")
-        setRestoreId("")
         setConvRefId("")
         setConvTopicName("")
         setConvTopicId("")

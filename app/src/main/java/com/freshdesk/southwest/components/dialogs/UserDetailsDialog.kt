@@ -1,5 +1,6 @@
 package com.freshdesk.southwest.components.dialogs
 
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -55,7 +56,16 @@ fun UserDetailDialog(
                     SpaceAndDivider()
                     UserDetailRow("Email", user.email)
                     SpaceAndDivider()
+                    UserDetailRow("Phone Country Code", user.phoneCountryCode)
+                    SpaceAndDivider()
                     UserDetailRow("Phone", user.phone)
+                    SpaceAndDivider()
+                    UserDetailRow("Rule Id", user.ruleId)
+                    SpaceAndDivider()
+                    user.customProps.forEach { (key, value) ->
+                        UserDetailRow(key, value)
+                        SpaceAndDivider()
+                    }
                 }
             } ?: run {
                 Box(
@@ -94,7 +104,8 @@ fun UserDetailRow(label: String, value: String?) {
             text = if (value.isNullOrEmpty()) "-" else value,
             style = MaterialTheme.typography.bodyLarge,
             maxLines = 1,
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.horizontalScroll(state = rememberScrollState())
         )
     }
 }
