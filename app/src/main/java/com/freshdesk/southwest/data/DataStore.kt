@@ -2,7 +2,6 @@ package com.freshdesk.southwest.data
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import com.freshdesk.southwest.utils.AccountUtils
 import com.freshworks.sdk.freshdesk.data.SDKConfig
 import com.google.gson.Gson
 
@@ -62,7 +61,12 @@ object DataStore {
         return gson.fromJson(json, SDKConfig::class.java)?.copy(
             ruleId = "sdkConfig",
             headerProps = emptyMap()
-        ) ?: AccountUtils.sanAssist
+        ) ?: SDKConfig(
+            host = "",
+            token = "",
+            sdkID = "",
+            headerProps = emptyMap()
+        )
     }
 
     fun setUserAlias(id: String) {

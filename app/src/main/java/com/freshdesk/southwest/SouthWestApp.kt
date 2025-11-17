@@ -56,8 +56,14 @@ class SouthWestApp : Application(), FreshdeskUserInteractionListener {
     }
 
     private fun setUpFreshdeskSDK() {
+        //To get your credentials refer to the below link
+        //https://github.com/freshworks/freshdesk-android-sdk?tab=readme-ov-file#sdk-initialization
         initializeSDK(
-            DataStore.getSelectedAccount(),
+            SDKConfig(
+                token = "<YOUR SDK TOKEN>",
+                host = "<YOUR HOST NAME>",
+                sdkID = "<YOUR SDK ID>"
+            ),
             this
         )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
