@@ -52,9 +52,12 @@ import com.freshdesk.southwest.components.dialogs.UpdateTicketDialog
 import com.freshdesk.southwest.components.dialogs.UpdateUserDialog
 import com.freshdesk.southwest.components.dialogs.UserDetailDialog
 import com.freshdesk.southwest.data.DataStore
+import com.freshdesk.southwest.data.DataStore.clearUser
+import com.freshdesk.southwest.data.DataStore.getSelectedAccount
 import com.freshdesk.southwest.data.DataStore.saveToastEventsState
 import com.freshdesk.southwest.data.DataStore.saveUserActionState
 import com.freshdesk.southwest.data.DataStore.setCustomLinkHandlerState
+import com.freshdesk.southwest.data.DataStore.setSelectedAccount
 import com.freshdesk.southwest.data.DialogConfig
 import com.freshdesk.southwest.extensions.applySDK35InsetsListener
 import com.freshdesk.southwest.ui.theme.SouthWestTheme
@@ -66,11 +69,8 @@ import com.freshdesk.southwest.utils.toast
 import com.freshworks.sdk.freshdesk.FreshdeskSDK
 import com.freshworks.sdk.freshdesk.FreshdeskSDK.setLinkHandler
 import com.freshworks.sdk.freshdesk.backend.model.User
-import com.freshworks.sdk.freshdesk.events.UserState
 import com.freshworks.sdk.freshdesk.handlers.FreshDeskSDKLinkHandler
-import java.util.Locale
 
-const val TAG = "SettingsActivity"
 const val DELAY_MILLIS = 10000L
 
 // TODO Remove once the initialization flow is done
@@ -269,7 +269,7 @@ class SettingsActivity : ComponentActivity(), FreshDeskSDKLinkHandler {
             FreshdeskSDK.resetUser({
                 resetDialog.value = false
                 toast(it)
-                DataStore.clearUser()
+                clearUser()
             }) {
                 resetDialog.value = false
                 toast(it)
@@ -285,18 +285,12 @@ class SettingsActivity : ComponentActivity(), FreshDeskSDKLinkHandler {
     @Composable
     fun UpdateJWT() {
         val fetching = stringResource(id = R.string.undefined)
-        val notFound = stringResource(id = R.string.not_found).uppercase(Locale.ROOT)
         val userState = rememberSaveable { mutableStateOf(fetching) }
-        val freshChatUUID = rememberSaveable { mutableStateOf(notFound) }
         val openDialog = rememberSaveable { mutableStateOf(false) }
-        val account = DataStore.getSelectedAccount()
-
-        (application as SouthWestApp).uuid.observeAsState().value?.let { uuid ->
-            freshChatUUID.value = uuid
-        }
+        val account = getSelectedAccount()
         (application as SouthWestApp).userState.observeAsState().value?.let { state ->
             userState.value = state
-            handleUserStates(state)
+            logd { "User State observed: $state" }
         }
         Button(
             onClick = {
@@ -316,9 +310,9 @@ class SettingsActivity : ComponentActivity(), FreshDeskSDKLinkHandler {
         if (openDialog.value) {
             UpdateAuthTokenDialog(
                 userState = userState.value,
-                authTokenValue = "",
+                authTokenValue = getSelectedAccount().jwt ?: "",
                 onValueChange = {
-                    DataStore.setSelectedAccount(account = account.copy(jwt = it))
+                    setSelectedAccount(account = account.copy(jwt = it))
                     FreshdeskSDK.authenticateAndUpdate(it)
                     openDialog.value = false
                 }
@@ -333,11 +327,10 @@ class SettingsActivity : ComponentActivity(), FreshDeskSDKLinkHandler {
         val openLoadAccountDialog = rememberSaveable { mutableStateOf(false) }
 
         if (openLoadAccountDialog.value) {
-            LoadAccountForm(DataStore.getSelectedAccount(), { config ->
+            LoadAccountForm(getSelectedAccount(), { config ->
                 openLoadAccountDialog.value = false
-                DataStore.setSelectedAccount(config)
-
                 val initNew = fun() {
+                    setSelectedAccount(config)
                     FreshdeskSDK.initialize(
                         this@SettingsActivity,
                         config
@@ -348,11 +341,11 @@ class SettingsActivity : ComponentActivity(), FreshDeskSDKLinkHandler {
 
                 logi { "Resetting current user and loading new SDK configuration" }
                 FreshdeskSDK.resetUser({
-                    DataStore.clearUser()
+                    clearUser()
                     logi { "User reset" }
                     initNew()
                 }) {
-                    DataStore.clearUser()
+                    clearUser()
                     initNew()
                     loge { "Unable to reset User $it" }
                 }
@@ -403,23 +396,6 @@ class SettingsActivity : ComponentActivity(), FreshDeskSDKLinkHandler {
             )
         }
         ButtonText(textId = R.string.log_user_event) { logUserEventDialog.value = true }
-    }
-
-    private fun handleUserStates(userState: String) {
-        when (userState) {
-            UserState.UNDEFINED,
-            UserState.IDENTIFIER_UPDATED,
-            UserState.NOT_AUTHENTICATED,
-            UserState.AUTH_EXPIRED,
-            UserState.JWT_ABSENT,
-            UserState.AUTHENTICATED -> {
-                logd { "User State : $userState" }
-            }
-
-            else -> {
-                Log.d("User state", "User state is $userState")
-            }
-        }
     }
 
     @Composable

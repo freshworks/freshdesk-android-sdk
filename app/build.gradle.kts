@@ -62,7 +62,7 @@ android {
 dependencies {
     releaseImplementation(libs.freshdesk)
     "snapshotImplementation"(libs.freshdesk.ss)
-    debugImplementation(libs.freshdesk.ss)
+    debugImplementation(libs.freshdesk)
 
     implementation(libs.compose.runtime)
     implementation(libs.compose.runtime.livedata)

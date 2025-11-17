@@ -13,6 +13,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.freshdesk.southwest.data.DataStore
+import com.freshdesk.southwest.data.DataStore.setUserAlias
 import com.freshdesk.southwest.data.DataStore.sharedPreferences
 import com.freshdesk.southwest.ui.activity.SOUTH_WEST
 import com.freshdesk.southwest.utils.logEvent
@@ -29,6 +30,7 @@ import com.freshworks.logging.LogUploader
 import com.freshworks.logging.log.LogEntry
 import com.freshworks.logging.log.LogSession
 import com.freshworks.logging.sampling.Logger
+import com.freshworks.sdk.freshdesk.events.UserState.Companion.AUTH_EXPIRED
 import com.freshworks.sdk.freshdesk.notification.NotificationConfig
 import com.freshworks.sdk.freshdesk.utils.changeLocale
 
@@ -42,22 +44,26 @@ class SouthWestApp : Application(), FreshdeskUserInteractionListener {
     private val _userState: MutableLiveData<String> = MutableLiveData()
     val userState: LiveData<String> = _userState
 
-    private val _uUID: MutableLiveData<String> = MutableLiveData()
-    val uuid: LiveData<String> = _uUID
-
     val customLocale = "ar"
+
     override fun onCreate() {
         super.onCreate()
         sharedPreferences = this.getSharedPreferences(SOUTH_WEST, MODE_PRIVATE)
         setUpFreshdeskSDK()
         setWebViewListener()
         registerBroadcastReceiver()
-        setFreshdeskUserInteractionListener(applicationContext as SouthWestApp)
+        setFreshdeskUserInteractionListener(this)
     }
 
     private fun setUpFreshdeskSDK() {
+        //To get your credentials refer to the below link
+        //https://github.com/freshworks/freshdesk-android-sdk?tab=readme-ov-file#sdk-initialization
         initializeSDK(
-            DataStore.getSelectedAccount(),
+            SDKConfig(
+                token = "<YOUR SDK TOKEN>",
+                host = "<YOUR HOST NAME>",
+                sdkID = "<YOUR SDK ID>"
+            ),
             this
         )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -103,17 +109,6 @@ class SouthWestApp : Application(), FreshdeskUserInteractionListener {
                         )
                     }
 
-                    SDKEventID.RESTORE_ID_GENERATED -> {
-                        val restoreId = intent.getStringExtra(SDKEventID.RESTORE_ID_GENERATED)
-                        DataStore.setRestoreId(restoreId ?: "")
-                        context?.logEvent(RESTORE_ID, restoreId ?: "", true)
-                    }
-
-                    SDKEventID.GET_UUID_SUCCESS -> {
-                        _uUID.value = intent.getStringExtra(SDKEventID.GET_UUID_SUCCESS)
-                        context?.logEvent(GET_UUID_SUCCESS, _uUID.value ?: "", true)
-                    }
-
                     SDKEventID.MESSAGE_SENT -> {
                         context?.logEvent(MESSAGE_SENT, "${intent.extras}")
                     }
@@ -142,10 +137,8 @@ class SouthWestApp : Application(), FreshdeskUserInteractionListener {
             myReceiver,
             IntentFilter().apply {
                 addAction(SDKEventID.USER_CREATED)
-                addAction(SDKEventID.RESTORE_ID_GENERATED)
                 addAction(SDKEventID.UNREAD_COUNT)
                 addAction(SDKEventID.USER_STATE_CHANGE)
-                addAction(SDKEventID.GET_UUID_SUCCESS)
                 addAction(SDKEventID.MESSAGE_SENT)
                 addAction(SDKEventID.MESSAGE_RECEIVED)
                 addAction(SDKEventID.CSAT_RECEIVED)
@@ -167,16 +160,16 @@ class SouthWestApp : Application(), FreshdeskUserInteractionListener {
                         intent.extras?.getParcelable(SDKEventID.USER_CREATED) as? User
                     }
                 user?.let {
-                    DataStore.setUserAlias(it.alias)
-                    if (DataStore.getRestoreId().isEmpty()) {
-                        DataStore.setRestoreId(it.restoreId ?: "")
-                    }
+                    setUserAlias(it.alias)
                     context?.logEvent(USER_CREATED, user.alias, true)
                 }
             }
 
             SDKEventID.USER_STATE_CHANGE -> {
                 _userState.value = intent.getStringExtra(SDKEventID.USER_STATE_CHANGE)
+                if (_userState.value == AUTH_EXPIRED) {
+                    handleAuthExpiry()
+                }
                 context?.logEvent(USER_STATE, _userState.value ?: "", true)
             }
 
@@ -190,6 +183,14 @@ class SouthWestApp : Application(), FreshdeskUserInteractionListener {
         }
     }
 
+    private fun handleAuthExpiry() {
+        logd { "User State: $userState" }
+        toast("JWT has expired. Please update the JWT to continue.")
+        // The Below line can be uncommented to re-authenticate the user automatically on JWT expiry
+        // by passing valid jwt token.
+        // FreshdeskSDK.authenticateAndUpdate(jwt = "")
+    }
+
     override fun onUserInteraction() {
         logd { "onUserInteraction() called" }
         if (DataStore.getUserActionState()) {
@@ -200,7 +201,6 @@ class SouthWestApp : Application(), FreshdeskUserInteractionListener {
     companion object {
 
         private const val UNREAD_COUNT = "UNREAD COUNT"
-        private const val RESTORE_ID = "RESTORE ID"
         private const val MESSAGE_SENT = "MESSAGE SENT"
         private const val MESSAGE_RECEIVED = "MESSAGE RECEIVED"
         private const val CSAT_RECEIVED = "CSAT RECEIVED"
@@ -208,7 +208,6 @@ class SouthWestApp : Application(), FreshdeskUserInteractionListener {
         private const val USER_STATE = "USER STATE"
         private const val USER_CLEARED = "USER CLEARED"
         private const val DOWNLOAD_FILE = "DOWNLOAD FILE"
-        private const val GET_UUID_SUCCESS = "GET UUID SUCCESS"
         private const val USER_CREATED = "USER_CREATED"
 
         private const val USER_AUTHENTICATED = "USER AUTHENTICATED"

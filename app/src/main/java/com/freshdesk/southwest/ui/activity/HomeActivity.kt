@@ -1,10 +1,10 @@
 package com.freshdesk.southwest.ui.activity
 
+// import com.freshworks.sdk.freshdesk.BuildConfig
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -62,10 +62,7 @@ import com.freshdesk.southwest.data.DataStore
 import com.freshdesk.southwest.extensions.applySDK35InsetsListener
 import com.freshdesk.southwest.ui.theme.NavigationDrawerTheme
 import com.freshdesk.southwest.ui.theme.SouthWestTheme
-import com.freshdesk.southwest.utils.logd
-// import com.freshworks.sdk.freshdesk.BuildConfig
 import com.freshworks.sdk.freshdesk.FreshdeskSDK
-import com.freshworks.sdk.freshdesk.events.UserState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -91,22 +88,6 @@ class HomeActivity : ComponentActivity() {
         viewModel.isLoading.observe(this) {
             setContent {
                 SetContent(isLoading = it, showSplashScreen)
-            }
-        }
-        (application as SouthWestApp).userState.observe(this) { userState ->
-            when (userState) {
-                UserState.UNDEFINED,
-                UserState.IDENTIFIER_UPDATED,
-                UserState.NOT_AUTHENTICATED,
-                UserState.JWT_ABSENT,
-                UserState.AUTH_EXPIRED,
-                UserState.AUTHENTICATED -> {
-                    logd { "User State : $userState" }
-                }
-
-                else -> {
-                    Log.d("User state", "User state is $userState")
-                }
             }
         }
         applySDK35InsetsListener()
