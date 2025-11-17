@@ -45,34 +45,14 @@ class SouthWestApp : Application(), FreshdeskUserInteractionListener {
     val userState: LiveData<String> = _userState
 
     val customLocale = "ar"
-    private lateinit var logger: Logger
+
     override fun onCreate() {
         super.onCreate()
         sharedPreferences = this.getSharedPreferences(SOUTH_WEST, MODE_PRIVATE)
         setUpFreshdeskSDK()
-        setupLogging()
         setWebViewListener()
         registerBroadcastReceiver()
         setFreshdeskUserInteractionListener(this)
-    }
-
-    private fun setupLogging() {
-        logger = Logger.getNewInstance(
-            applicationContext,
-            "Southwest",
-            object : LogUploader {
-                override fun uploadSessions(sessions: List<LogSession>): Boolean {
-                    return true
-                }
-
-                override fun uploadLogs(logs: List<LogEntry>): Boolean {
-                    return true
-                }
-            }
-        )
-        logger.applyDefaultRule()
-        logger.startSampling(mapOf())
-        logger.scheduleUpload(this)
     }
 
     private fun setUpFreshdeskSDK() {
