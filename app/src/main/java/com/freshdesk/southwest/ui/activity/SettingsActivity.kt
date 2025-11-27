@@ -268,9 +268,11 @@ class SettingsActivity : ComponentActivity(), FreshDeskSDKLinkHandler {
             resetDialog.value = true
             FreshdeskSDK.resetUser({
                 resetDialog.value = false
+                (application as SouthWestApp).clearUserState()
                 toast(it)
                 clearUser()
             }) {
+                (application as SouthWestApp).clearUserState()
                 resetDialog.value = false
                 toast(it)
             }
@@ -289,7 +291,7 @@ class SettingsActivity : ComponentActivity(), FreshDeskSDKLinkHandler {
         val openDialog = rememberSaveable { mutableStateOf(false) }
         val account = getSelectedAccount()
         (application as SouthWestApp).userState.observeAsState().value?.let { state ->
-            userState.value = state
+            userState.value = state.ifEmpty { fetching }
             logd { "User State observed: $state" }
         }
         Button(
@@ -341,11 +343,13 @@ class SettingsActivity : ComponentActivity(), FreshDeskSDKLinkHandler {
 
                 logi { "Resetting current user and loading new SDK configuration" }
                 FreshdeskSDK.resetUser({
+                    (application as SouthWestApp).clearUserState()
                     clearUser()
                     logi { "User reset" }
                     initNew()
                 }) {
                     clearUser()
+                    (application as SouthWestApp).clearUserState()
                     initNew()
                     loge { "Unable to reset User $it" }
                 }
