@@ -8,7 +8,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.util.Log
-import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -55,6 +54,10 @@ class SouthWestApp : Application(), FreshdeskUserInteractionListener {
         setFreshdeskUserInteractionListener(this)
     }
 
+    fun clearUserState() {
+        _userState.value = ""
+    }
+
     private fun setUpFreshdeskSDK() {
         //To get your credentials refer to the below link
         //https://github.com/freshworks/freshdesk-android-sdk?tab=readme-ov-file#sdk-initialization
@@ -66,25 +69,14 @@ class SouthWestApp : Application(), FreshdeskUserInteractionListener {
             ),
             this
         )
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            FreshdeskSDK.setNotificationConfig(
-                NotificationConfig(
-                    soundEnabled = true,
-                    smallIconResId = R.drawable.ic_southwest_notification,
-                    largeIconResId = R.drawable.ic_southwest_notification,
-                    importance = NotificationManager.IMPORTANCE_HIGH
-                )
+        FreshdeskSDK.setNotificationConfig(
+            NotificationConfig(
+                soundEnabled = true,
+                smallIconResId = R.drawable.ic_southwest_notification,
+                largeIconResId = R.drawable.ic_southwest_notification,
+                importance = NotificationManager.IMPORTANCE_HIGH
             )
-        } else {
-            FreshdeskSDK.setNotificationConfig(
-                NotificationConfig(
-                    soundEnabled = true,
-                    smallIconResId = R.drawable.ic_southwest_notification,
-                    largeIconResId = R.drawable.ic_southwest_notification,
-                    importance = NotificationCompat.PRIORITY_HIGH
-                )
-            )
-        }
+        )
     }
 
     private fun setWebViewListener() {
@@ -117,14 +109,6 @@ class SouthWestApp : Application(), FreshdeskUserInteractionListener {
                         context?.logEvent(MESSAGE_RECEIVED, "${intent.extras}")
                     }
 
-                    SDKEventID.CSAT_RECEIVED -> {
-                        context?.logEvent(CSAT_RECEIVED, "${intent.extras}")
-                    }
-
-                    SDKEventID.CSAT_UPDATED -> {
-                        context?.logEvent(CSAT_UPDATED, "${intent.extras}")
-                    }
-
                     SDKEventID.DOWNLOAD_FILE -> {
                         context?.logEvent(DOWNLOAD_FILE, "${intent.extras}")
                     }
@@ -141,8 +125,6 @@ class SouthWestApp : Application(), FreshdeskUserInteractionListener {
                 addAction(SDKEventID.USER_STATE_CHANGE)
                 addAction(SDKEventID.MESSAGE_SENT)
                 addAction(SDKEventID.MESSAGE_RECEIVED)
-                addAction(SDKEventID.CSAT_RECEIVED)
-                addAction(SDKEventID.CSAT_UPDATED)
                 addAction(SDKEventID.DOWNLOAD_FILE)
                 addAction(SDKEventID.USER_CLEARED)
             }
@@ -203,8 +185,6 @@ class SouthWestApp : Application(), FreshdeskUserInteractionListener {
         private const val UNREAD_COUNT = "UNREAD COUNT"
         private const val MESSAGE_SENT = "MESSAGE SENT"
         private const val MESSAGE_RECEIVED = "MESSAGE RECEIVED"
-        private const val CSAT_RECEIVED = "CSAT RECEIVED"
-        private const val CSAT_UPDATED = "CSAT UPDATED"
         private const val USER_STATE = "USER STATE"
         private const val USER_CLEARED = "USER CLEARED"
         private const val DOWNLOAD_FILE = "DOWNLOAD FILE"
